@@ -33,35 +33,31 @@ namespace EGE_version1
                 Console.WriteLine(key + ": " + d[key]);
             Console.WriteLine();
         }
+        static void print(Dictionary<string, List<string>> d)
+        {
+            foreach (var key in d.Keys)
+            {
+                Console.WriteLine("Предмет " + key);
+                print(d[key]);
+            }
+            Console.WriteLine();
+        }
 
         static void Main(string[] args)
         {
             StreamReader fileEGE = new StreamReader("request.txt");
-            List <string> subjects = new List<string>();
-            List<List<string>> listOfSubjects = new List<List<string>>();
-            Dictionary<string, int> dictEGE = new Dictionary<string, int>();
+            Dictionary<string, List<string>> dictEGE = new Dictionary<string, List<string>>();
 
             while(!fileEGE.EndOfStream) 
             { 
                 string[] words = fileEGE.ReadLine().Split();
                 string subject = words[3];
-                if (dictEGE.ContainsKey(subject))
-                    dictEGE[subject]++;
-                else
-                    dictEGE[subject] = 1;
-                
-                //int ind = subjects.IndexOf(words[3]);
-                //if (ind == -1)
-                //{
-                //    subjects.Add(words[3]);
-                //    ind = subjects.Count() - 1;
-                //    listOfSubjects.Add(new List<string>());
-                //}
-                //listOfSubjects[ind].Add($"{words[0]} {words[1]} {words[2]}");
+                string student = words[0] + " " + words[1];
+                if (!dictEGE.ContainsKey(subject))
+                    dictEGE[subject] = new List<string>();
+                dictEGE[subject].Add(student);
             }
             fileEGE.Close();
-            //print(subjects, listOfSubjects);
-            //print(dictEGE.Keys.ToList());
             print(dictEGE);
 
         }
